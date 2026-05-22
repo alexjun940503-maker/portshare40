@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#080a0d">
+<title>40 — Portfolio Share</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#080a0d;--bg2:#0f1218;--bg3:#161b23;--bg4:#1d232e;
+  --border:rgba(255,255,255,.07);--border2:rgba(255,255,255,.13);
+  --text:#eef0f4;--text2:#8b91a8;--text3:#4a5168;
+  --gold:#c9a84c;--gold2:#e8c97a;--gold-bg:rgba(201,168,76,.1);
+  --accent:#5b8af0;--accent-bg:rgba(91,138,240,.1);
+  --font-display:'DM Serif Display',Georgia,serif;
+  --font:'DM Sans',-apple-system,sans-serif;
+  --r:12px;--rl:16px;
+  --safe-top:env(safe-area-inset-top,0px);
+  --safe-bottom:env(safe-area-inset-bottom,0px);
+}
+
+html{font-size:15px;-webkit-text-size-adjust:100%}
+body{
+  background:var(--bg);color:var(--text);
+  font-family:var(--font);min-height:100dvh;
+  -webkit-tap-highlight-color:transparent;
+  overscroll-behavior-y:none;
+}
+
+/* noise texture overlay */
+body::before{
+  content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  opacity:.4;
+}
+
+.app{
+  position:relative;z-index:1;
+  max-width:720px;margin:0 auto;
+  padding:calc(3rem + var(--safe-top)) 1.5rem calc(3rem + var(--safe-bottom));
+}
+@media(max-width:520px){.app{padding:calc(2rem + var(--safe-top)) 1rem calc(2rem + var(--safe-bottom));}}
+
+/* ===== HERO ===== */
+.hero{text-align:center;margin-bottom:3.5rem;position:relative}
+.hero-eyebrow{
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:11px;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--gold);font-weight:500;margin-bottom:1.25rem;
+  padding:5px 14px;border-radius:20px;
+  background:var(--gold-bg);border:1px solid rgba(201,168,76,.2);
+}
+.hero-num{
+  font-family:var(--font-display);
+  font-size:clamp(88px,22vw,136px);
+  line-height:.85;
+  color:transparent;
+  background:linear-gradient(135deg,#eef0f4 0%,#c9a84c 50%,#8b91a8 100%);
+  -webkit-background-clip:text;background-clip:text;
+  letter-spacing:-.04em;display:block;
+  margin-bottom:.3rem;
+}
+.hero-sub{
+  font-family:var(--font-display);
+  font-size:clamp(15px,3.5vw,20px);
+  color:var(--text2);letter-spacing:.22em;text-transform:uppercase;
+  font-style:italic;
+}
+.hero-divider{
+  width:48px;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);
+  margin:1.5rem auto;
+}
+.hero-desc{font-size:14px;color:var(--text3);line-height:1.7;max-width:340px;margin:0 auto}
+
+/* ===== PROFILES SECTION ===== */
+.section-label{
+  font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--text3);font-weight:500;margin-bottom:1.25rem;
+  display:flex;align-items:center;gap:8px;
+}
+.section-label::after{content:'';flex:1;height:1px;background:var(--border)}
+
+.profiles-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(148px,1fr));
+  gap:12px;
+  margin-bottom:2rem;
+}
+@media(max-width:400px){.profiles-grid{grid-template-columns:repeat(2,1fr);gap:10px}}
+
+/* Profile Card */
+.profile-card{
+  background:var(--bg2);border:1px solid var(--border);
+  border-radius:var(--rl);padding:1.25rem 1rem 1rem;
+  cursor:pointer;transition:all .2s;
+  display:flex;flex-direction:column;align-items:center;gap:.7rem;
+  position:relative;overflow:hidden;
+  -webkit-user-select:none;user-select:none;
+}
+.profile-card::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(255,255,255,.03),transparent);
+  opacity:0;transition:opacity .2s;
+}
+.profile-card:hover{border-color:var(--border2);transform:translateY(-2px);box-shadow:0 8px 32px rgba(0,0,0,.4)}
+.profile-card:hover::before{opacity:1}
+.profile-card:active{transform:scale(.97);opacity:.85}
+
+.profile-avatar{
+  width:64px;height:64px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:22px;font-weight:700;
+  font-family:var(--font-display);
+  position:relative;flex-shrink:0;
+  border:2px solid rgba(255,255,255,.07);
+}
+.profile-avatar .avatar-emoji{font-size:28px;line-height:1}
+.profile-name{font-size:14px;font-weight:600;text-align:center;line-height:1.3;color:var(--text)}
+.profile-meta{font-size:11px;color:var(--text3);text-align:center;line-height:1.4}
+.profile-total{
+  font-size:13px;font-weight:600;
+  color:var(--gold2);font-family:var(--font-display);
+  letter-spacing:-.01em;
+}
+.profile-owner-badge{
+  position:absolute;top:8px;right:8px;
+  font-size:9px;padding:2px 6px;border-radius:4px;
+  background:var(--gold-bg);color:var(--gold);
+  font-weight:600;letter-spacing:.06em;text-transform:uppercase;
+}
+.profile-hidden-count{
+  font-size:10px;color:var(--text3);
+  display:flex;align-items:center;gap:3px;
+}
+.profile-hidden-count i{font-size:11px}
+
+/* Add Profile Card */
+.add-profile-card{
+  background:none;
+  border:1.5px dashed var(--border2);
+  border-radius:var(--rl);padding:1.25rem 1rem;
+  cursor:pointer;transition:all .2s;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:.6rem;min-height:155px;
+  font-family:var(--font);
+}
+.add-profile-card:hover{border-color:var(--accent);background:var(--accent-bg)}
+.add-profile-card:active{transform:scale(.97);opacity:.8}
+.add-icon{
+  width:44px;height:44px;border-radius:50%;
+  background:var(--bg3);border:1px solid var(--border2);
+  display:flex;align-items:center;justify-content:center;
+  font-size:20px;color:var(--text3);transition:all .2s;
+}
+.add-profile-card:hover .add-icon{background:var(--accent-bg);color:var(--accent);border-color:var(--accent)}
+.add-label{font-size:13px;color:var(--text3);font-weight:500}
+.add-profile-card:hover .add-label{color:var(--accent)}
+
+/* ===== QUICK ACTIONS ===== */
+.quick-actions{display:flex;gap:8px;margin-bottom:2rem;flex-wrap:wrap}
+.qa-btn{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:8px 14px;border-radius:var(--r);
+  border:1px solid var(--border2);background:var(--bg2);
+  color:var(--text2);font-size:12px;cursor:pointer;
+  transition:all .15s;font-family:var(--font);
+  -webkit-user-select:none;user-select:none;
+}
+.qa-btn i{font-size:14px}
+.qa-btn:hover{background:var(--bg3);color:var(--text);border-color:var(--border2)}
+.qa-btn:active{opacity:.7;transform:scale(.97)}
+
+/* ===== MODAL ===== */
+.modal-overlay{
+  display:none;position:fixed;inset:0;
+  background:rgba(0,0,0,.8);z-index:200;
+  align-items:flex-end;justify-content:center;
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+}
+.modal-overlay.open{display:flex}
+@media(min-width:520px){
+  .modal-overlay{align-items:center}
+  .modal{border-radius:var(--rl) !important;max-height:90vh !important}
+}
+.modal{
+  background:var(--bg2);border:1px solid var(--border2);
+  border-radius:var(--rl) var(--rl) 0 0;
+  padding:1.5rem 1.5rem calc(1.5rem + var(--safe-bottom));
+  width:100%;max-width:420px;
+  max-height:90dvh;overflow-y:auto;
+}
+.modal-drag{width:36px;height:3px;background:var(--border2);border-radius:2px;margin:0 auto 1.5rem}
+@media(min-width:520px){.modal-drag{display:none}}
+.modal-title{font-size:18px;font-weight:600;margin-bottom:1.5rem;display:flex;align-items:center;justify-content:space-between;font-family:var(--font-display)}
+.modal-close{background:none;border:none;color:var(--text3);cursor:pointer;font-size:18px;padding:4px}
+.modal-close:hover{color:var(--text)}
+
+/* Form fields */
+.field{margin-bottom:14px}
+.field label{display:block;font-size:11px;color:var(--text2);margin-bottom:6px;text-transform:uppercase;letter-spacing:.05em;font-weight:600}
+.field input,.field select{
+  width:100%;padding:11px 13px;font-size:15px;
+  border:1px solid var(--border2);border-radius:var(--r);
+  background:var(--bg3);color:var(--text);outline:none;
+  transition:border-color .15s;font-family:var(--font);
+  -webkit-appearance:none;
+}
+.field input:focus,.field select:focus{border-color:var(--accent)}
+.field select option{background:var(--bg3)}
+
+/* Emoji picker */
+.emoji-grid{
+  display:grid;grid-template-columns:repeat(8,1fr);gap:6px;
+  margin-top:6px;
+}
+.emoji-btn{
+  width:100%;aspect-ratio:1;border-radius:8px;border:1.5px solid var(--border);
+  background:var(--bg3);font-size:20px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  transition:all .12s;
+}
+.emoji-btn:hover,.emoji-btn.sel{border-color:var(--accent);background:var(--accent-bg)}
+
+/* Color swatches */
+.color-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
+.color-sw{
+  width:28px;height:28px;border-radius:50%;cursor:pointer;
+  border:2.5px solid transparent;transition:all .15s;
+}
+.color-sw.sel{border-color:#fff;transform:scale(1.15)}
+
+/* Modal buttons */
+.modal-btns{display:flex;gap:8px;margin-top:1.5rem}
+.modal-btns button{
+  flex:1;padding:13px;border-radius:var(--r);
+  font-size:14px;cursor:pointer;font-family:var(--font);font-weight:600;min-height:48px;
+}
+.m-cancel{background:none;border:1px solid var(--border2);color:var(--text2)}
+.m-cancel:hover{color:var(--text);background:var(--bg3)}
+.m-confirm{background:var(--accent);border:1px solid var(--accent);color:#fff}
+.m-confirm:hover{opacity:.88}
+.m-danger{background:var(--red-bg,rgba(216,90,48,.12));border:1px solid rgba(216,90,48,.3);color:#f07850}
+.m-danger:hover{background:rgba(216,90,48,.22)}
+
+/* ===== DELETE CONFIRM ===== */
+.del-overlay{
+  display:none;position:fixed;inset:0;
+  background:rgba(0,0,0,.85);z-index:300;
+  align-items:center;justify-content:center;
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+}
+.del-overlay.open{display:flex}
+.del-box{
+  background:var(--bg2);border:1px solid var(--border2);
+  border-radius:var(--rl);padding:2rem;max-width:320px;width:calc(100% - 2rem);
+  text-align:center;
+}
+.del-box h3{font-size:18px;font-weight:700;margin-bottom:.75rem}
+.del-box p{font-size:13px;color:var(--text2);line-height:1.6;margin-bottom:1.5rem}
+.del-btns{display:flex;gap:8px}
+
+/* ===== TOAST ===== */
+.toast{
+  position:fixed;bottom:calc(1.5rem + var(--safe-bottom));
+  left:50%;transform:translateX(-50%) translateY(20px);
+  background:var(--bg4);border:1px solid var(--border2);
+  border-radius:var(--r);padding:10px 18px;font-size:13px;
+  color:var(--text);opacity:0;transition:all .25s;z-index:500;
+  white-space:nowrap;box-shadow:0 4px 24px rgba(0,0,0,.5);
+}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* ===== ANIMATIONS ===== */
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.hero{animation:fadeUp .7s ease both}
+.profiles-grid{animation:fadeUp .7s .12s ease both}
+.section-label{animation:fadeUp .6s .05s ease both}
+
+/* ===== FOOTER ===== */
+.footer{text-align:center;margin-top:3rem;font-size:11px;color:var(--text3);letter-spacing:.06em}
+</style>
+
+<!-- Firebase SDKs (compat version - works with regular scripts) -->
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+<script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyDjWlWyX-mlIpF_OpGbmKoxs0Q27L0hnMs",
+    authDomain: "ps40-39b80.firebaseapp.com",
+    projectId: "ps40-39b80",
+    storageBucket: "ps40-39b80.firebasestorage.app",
+    messagingSenderId: "785589647860",
+    appId: "1:785589647860:web:77fc94587d4025f78321a1"
+  };
+
+  firebase.initializeApp(firebaseConfig);
+  const _db = firebase.firestore();
+  const _auth = firebase.auth();
+
+  // compat SDK를 기존 window._fbFns 구조에 맞게 래핑
+  window._db = _db;
+  window._auth = _auth;
+  window._fbFns = {
+    doc: (db, col, id) => db.collection(col).doc(id),
+    setDoc: (ref, data, opts) => opts ? ref.set(data, opts) : ref.set(data),
+    getDoc: (ref) => ref.get().then(snap => ({ exists: () => snap.exists, data: () => snap.data(), id: snap.id })),
+    collection: (db, col) => db.collection(col),
+    getDocs: (ref) => ref.get(),
+    onSnapshot: (ref, cb, errCb) => ref.onSnapshot(snap => cb({ exists: () => snap.exists, data: () => snap.data(), id: snap.id }), errCb),
+    deleteDoc: (ref) => ref.delete(),
+  };
+  window._authFns = {
+    signInWithPopup: (auth, provider) => auth.signInWithPopup(provider),
+    signOut: (auth) => auth.signOut(),
+    onAuthStateChanged: (auth, cb) => auth.onAuthStateChanged(cb),
+    provider: new firebase.auth.GoogleAuthProvider(),
+  };
+  window._fbReady = true;
+  window._currentUser = null;
+
+  _auth.onAuthStateChanged((user) => {
+    window._currentUser = user;
+    document.dispatchEvent(new CustomEvent('authChanged', { detail: user }));
+  });
+
+  document.dispatchEvent(new Event('fbReady'));
+</script>
+</head>
+<body>
+<div class="app">
+
+  <div class="hero">
+    <div class="hero-eyebrow"><i class="ti ti-chart-bar"></i> 자산 현황판</div>
+    <span class="hero-num">40</span>
+    <div class="hero-sub">portfolio share</div>
+    <div class="hero-divider"></div>
+    <p class="hero-desc">나와 친구들의 포트폴리오를 한 곳에서 관리하고 비교하세요</p>
+  </div>
+
+  <!-- 로그인 상태 바 -->
+  <div id="authBar" style="display:flex;align-items:center;justify-content:space-between;background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:10px 14px;margin-bottom:1.25rem;gap:10px">
+    <div id="authInfo" style="display:flex;align-items:center;gap:10px;font-size:13px;color:var(--text2)">
+      <div id="authAvatar" style="width:28px;height:28px;border-radius:50%;background:var(--bg4);overflow:hidden;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0">
+        <i class="ti ti-user" style="font-size:15px"></i>
+      </div>
+      <span id="authLabel">로그인하면 내 프로필을 편집할 수 있어요</span>
+    </div>
+    <button id="authBtn" onclick="handleAuth()" style="white-space:nowrap;padding:6px 14px;border-radius:8px;border:1px solid var(--border2);background:var(--bg4);color:var(--text);font-size:12px;cursor:pointer;font-family:var(--font);display:flex;align-items:center;gap:5px">
+      <i class="ti ti-brand-google" style="font-size:14px;color:#4285F4"></i> Google 로그인
+    </button>
+  </div>
+
+  <div class="section-label">프로필</div>
+
+  <div class="profiles-grid" id="profilesGrid"></div>
+
+  <div class="quick-actions">
+    <button class="qa-btn" onclick="exportAll()"><i class="ti ti-download"></i> 전체 내보내기</button>
+    <button class="qa-btn" onclick="importData()"><i class="ti ti-upload"></i> 가져오기</button>
+    <input type="file" id="importFile" accept=".json" style="display:none" onchange="handleImport(event)">
+  </div>
+
+  <div class="footer">© 40 Portfolio Share — 로컬 저장, 서버 없음</div>
+</div>
+
+<!-- Add / Edit Profile Modal -->
+<div class="modal-overlay" id="addModal">
+  <div class="modal">
+    <div class="modal-drag"></div>
+    <div class="modal-title">
+      <span id="addModalTitle">프로필 추가</span>
+      <button class="modal-close" onclick="closeAddModal()"><i class="ti ti-x"></i></button>
+    </div>
+    <div class="field">
+      <label>이름</label>
+      <input type="text" id="pName" placeholder="닉네임 또는 실명" maxlength="20">
+    </div>
+    <div class="field">
+      <label>이모지 아바타</label>
+      <div class="emoji-grid" id="emojiGrid"></div>
+    </div>
+    <div class="field">
+      <label>카드 색상</label>
+      <div class="color-row" id="colorRow"></div>
+    </div>
+    <div class="modal-btns">
+      <button class="m-cancel" onclick="closeAddModal()">취소</button>
+      <button class="m-confirm" id="addConfirmBtn" onclick="saveProfile()">추가하기</button>
+    </div>
+  </div>
+</div>
+
+<!-- Delete Confirm -->
+<div class="del-overlay" id="delOverlay">
+  <div class="del-box">
+    <h3>프로필 삭제</h3>
+    <p id="delMsg">이 프로필과 모든 포트폴리오 데이터를 삭제할까요? 되돌릴 수 없습니다.</p>
+    <div class="del-btns">
+      <button class="m-cancel" style="flex:1;padding:12px;border-radius:12px;font-size:14px;cursor:pointer;background:none;border:1px solid var(--border2);color:var(--text2);font-family:var(--font)" onclick="closeDelConfirm()">취소</button>
+      <button class="m-danger" style="flex:1;padding:12px;border-radius:12px;font-size:14px;cursor:pointer;font-family:var(--font);font-weight:600" onclick="confirmDelete()">삭제하기</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const EMOJIS=['😊','😎','🧑','👨','👩','🦊','🐻','🐼','🦁','🐯','🦋','🐬','🦅','🌟','💎','🔥','⚡','🍀','🌙','☀️','🎯','🚀','💰','📈','🏆','🎲','🌊','🏔️','🎸','🎹'];
+const COLORS=['#5b8af0','#c9a84c','#1D9E75','#E24B4A','#a78bfa','#F7931A','#D4537E','#00C08B','#627EEA','#F3BA2F'];
+
+let profiles=[];
+let editingProfileId=null;
+let deletingProfileId=null;
+let selectedEmoji=EMOJIS[0];
+let selectedColor=COLORS[0];
+let currentUser=null; // 로그인한 구글 유저
+
+// ===== AUTH =====
+function handleAuth(){
+  if(currentUser){
+    // 로그아웃
+    _auth.signOut()
+      .then(()=>showToast('로그아웃됐어요'))
+      .catch(e=>showToast('오류: '+e.message));
+  } else {
+    // 구글 로그인
+    _auth.signInWithPopup(new firebase.auth.GoogleAuthProvider())
+      .then(result=>{
+        showToast('로그인됐어요 👋 '+result.user.displayName);
+      })
+      .catch(e=>{
+        if(e.code!=='auth/popup-closed-by-user') showToast('로그인 실패: '+e.message, true);
+      });
+  }
+}
+
+function updateAuthUI(user){
+  currentUser = user;
+  const label = document.getElementById('authLabel');
+  const btn   = document.getElementById('authBtn');
+  const avatar= document.getElementById('authAvatar');
+  if(user){
+    label.innerHTML = '<strong style="color:var(--text)">'+escHtml(user.displayName||user.email)+'</strong>'
+      +'<span style="font-size:11px;color:var(--text3);margin-left:4px">'+escHtml(user.email)+'</span>';
+    btn.innerHTML = '<i class="ti ti-logout" style="font-size:14px"></i> 로그아웃';
+    if(user.photoURL){
+      avatar.innerHTML='<img src="'+user.photoURL+'" style="width:100%;height:100%;border-radius:50%;object-fit:cover">';
+    } else {
+      avatar.innerHTML='<span style="font-size:16px">'+((user.displayName||'?')[0].toUpperCase())+'</span>';
+    }
+  } else {
+    label.textContent='로그인하면 내 프로필을 편집할 수 있어요';
+    btn.innerHTML='<i class="ti ti-brand-google" style="font-size:14px;color:#4285F4"></i> Google 로그인';
+    avatar.innerHTML='<i class="ti ti-user" style="font-size:15px"></i>';
+  }
+  // 프로필 카드 다시 그리기 (소유자 뱃지/편집 버튼 상태 반영)
+  renderProfiles();
+}
+
+// ===== STORAGE =====
+function saveProfiles(){
+  try{localStorage.setItem('pf40_profiles',JSON.stringify(profiles));}catch(e){}
+  if(window._db){
+    _db.collection('app').doc('profiles').set({list:profiles,updatedAt:Date.now()})
+      .catch(e=>console.warn('Firebase save failed:',e));
+  }
+}
+
+function loadProfiles(){
+  try{
+    const r=localStorage.getItem('pf40_profiles');
+    if(r){const parsed=JSON.parse(r);if(parsed&&parsed.length>0)profiles=parsed;}
+  }catch(e){}
+  if(!profiles.length){
+    profiles=[{id:genId(),name:'나',emoji:'😎',color:'#5b8af0',ownerUid:null,createdAt:Date.now()}];
+    saveProfiles();
+  }
+  renderProfiles();
+  if(window._db){
+    _db.collection('app').doc('profiles').onSnapshot((snap)=>{
+      if(snap.exists){
+        const list=snap.data().list||[];
+        if(list.length>0){
+          profiles=list;
+          try{localStorage.setItem('pf40_profiles',JSON.stringify(profiles));}catch(e){}
+          renderProfiles();
+        } else if(profiles.length>0){saveProfiles();}
+      } else if(profiles.length>0){saveProfiles();}
+    },(err)=>console.warn('Firestore listen error:',err));
+  }
+}
+
+function genId(){return Date.now().toString(36)+Math.random().toString(36).slice(2,6);}
+
+// ===== 소유자 판단 =====
+// 프로필의 ownerUid가 현재 로그인 유저의 uid와 같으면 소유자
+function isProfileOwner(profile){
+  if(!profile) return false;
+  if(!profile.ownerUid) return false; // uid 미설정 프로필은 누구도 소유자 아님
+  if(!currentUser) return false;
+  return profile.ownerUid === currentUser.uid;
+}
+
+// ===== RENDER PROFILES =====
+function renderProfiles(){
+  const grid=document.getElementById('profilesGrid');
+  const cards=profiles.map(p=>buildProfileCard(p)).join('');
+  // 로그인한 경우만 프로필 추가 버튼 표시
+  const addBtn = currentUser
+    ? `<button class="add-profile-card" onclick="openAddModal()">
+        <div class="add-icon"><i class="ti ti-plus"></i></div>
+        <span class="add-label">프로필 추가</span>
+       </button>`
+    : '';
+  grid.innerHTML=cards+addBtn;
+}
+
+function getProfileTotal(profileId){
+  try{
+    const r=localStorage.getItem('pf40_assets_'+profileId);
+    if(!r)return null;
+    const d=JSON.parse(r);
+    const assets=d.assets||[];
+    return assets.filter(a=>!a.hidden).reduce((s,a)=>{
+      if(a.type==='crypto'||a.type==='stock')return s+(a.currentPrice||0)*a.qty;
+      return s+(a.amount||0);
+    },0);
+  }catch(e){return null;}
+}
+
+function getHiddenCount(profileId){
+  try{
+    const r=localStorage.getItem('pf40_assets_'+profileId);
+    if(!r)return 0;
+    const d=JSON.parse(r);
+    return (d.assets||[]).filter(a=>a.hidden).length;
+  }catch(e){return 0;}
+}
+
+function buildProfileCard(p){
+  const total=getProfileTotal(p.id);
+  const hiddenCnt=getHiddenCount(p.id);
+  const isMine=isProfileOwner(p);
+  const totalStr=total!==null?(total>=1e8?(total/1e8).toFixed(1)+'억':Math.round(total/1e4).toLocaleString()+'만원'):'데이터 없음';
+  // 소유자 뱃지: 내 uid와 일치하는 프로필에만 표시
+  const ownerBadge=isMine?'<div class="profile-owner-badge">나</div>':'';
+  // 편집/삭제 버튼: 내 프로필이거나 로그인 유저면 표시
+  const canEdit = isMine || (currentUser && !p.ownerUid); // ownerUid 없는 프로필은 누구나 편집
+  const actionBtns = canEdit
+    ? `<div class="profile-meta" style="display:flex;gap:8px;margin-top:2px">
+        <span onclick="event.stopPropagation();openEditProfile('${p.id}')" style="cursor:pointer;color:var(--text3);font-size:11px;padding:3px 6px;border-radius:5px;border:1px solid var(--border);display:inline-flex;align-items:center;gap:3px"><i class="ti ti-pencil" style="font-size:11px"></i>편집</span>
+        <span onclick="event.stopPropagation();openDelConfirm('${p.id}')" style="cursor:pointer;color:var(--text3);font-size:11px;padding:3px 6px;border-radius:5px;border:1px solid var(--border);display:inline-flex;align-items:center;gap:3px"><i class="ti ti-trash" style="font-size:11px"></i>삭제</span>
+        ${!p.ownerUid&&currentUser?`<span onclick="event.stopPropagation();claimProfile('${p.id}')" style="cursor:pointer;color:var(--accent);font-size:11px;padding:3px 6px;border-radius:5px;border:1px solid var(--accent);display:inline-flex;align-items:center;gap:3px"><i class="ti ti-lock" style="font-size:11px"></i>내 것으로</span>`:''}
+       </div>`
+    : '';
+  return`<div class="profile-card" onclick="openPortfolio('${p.id}')" style="--card-color:${p.color}">
+    ${ownerBadge}
+    <div class="profile-avatar" style="background:${p.color}22;border-color:${p.color}44">
+      <span class="avatar-emoji">${p.emoji}</span>
+    </div>
+    <div class="profile-name">${escHtml(p.name)}</div>
+    ${total!==null?`<div class="profile-total">${totalStr}</div>`:'<div class="profile-meta">포트폴리오 없음</div>'}
+    ${hiddenCnt>0&&isMine?`<div class="profile-hidden-count"><i class="ti ti-eye-off"></i>${hiddenCnt}개 비공개</div>`:''}
+    ${actionBtns}
+  </div>`;
+}
+
+function escHtml(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+
+// 프로필 소유권 주장 (내 uid 연결)
+function claimProfile(id){
+  if(!currentUser){showToast('먼저 로그인해주세요');return;}
+  const p=profiles.find(x=>x.id===id);
+  if(!p)return;
+  if(p.ownerUid){showToast('이미 소유자가 있는 프로필이에요');return;}
+  if(!confirm('"'+p.name+'" 프로필을 내 것으로 등록할까요?
+이후엔 내 Google 계정으로만 편집할 수 있어요.'))return;
+  p.ownerUid=currentUser.uid;
+  // 역할도 'me'로 업데이트
+  p.role='me';
+  saveProfiles();renderProfiles();
+  showToast('내 프로필로 등록됐어요 🔒');
+}
+
+// ===== OPEN PORTFOLIO =====
+function openPortfolio(profileId){
+  window.location.href='portfolio.html?pid='+profileId;
+}
+
+// ===== ADD / EDIT MODAL =====
+function openAddModal(){
+  if(!currentUser){showToast('먼저 Google 로그인이 필요해요');return;}
+  editingProfileId=null;
+  document.getElementById('addModalTitle').textContent='프로필 추가';
+  document.getElementById('addConfirmBtn').textContent='추가하기';
+  document.getElementById('pName').value='';
+  selectedEmoji=EMOJIS[0];
+  selectedColor=COLORS[0];
+  renderEmojiGrid();renderColorRow();
+  document.getElementById('addModal').classList.add('open');
+  setTimeout(()=>document.getElementById('pName').focus(),60);
+}
+
+function openEditProfile(id){
+  const p=profiles.find(x=>x.id===id);if(!p)return;
+  editingProfileId=id;
+  document.getElementById('addModalTitle').textContent='프로필 편집';
+  document.getElementById('addConfirmBtn').textContent='저장하기';
+  document.getElementById('pName').value=p.name;
+  selectedEmoji=p.emoji;
+  selectedColor=p.color;
+  renderEmojiGrid();renderColorRow();
+  document.getElementById('addModal').classList.add('open');
+}
+
+function closeAddModal(){document.getElementById('addModal').classList.remove('open');editingProfileId=null;}
+
+function renderEmojiGrid(){
+  document.getElementById('emojiGrid').innerHTML=EMOJIS.map(e=>
+    `<button class="emoji-btn${e===selectedEmoji?' sel':''}" onclick="pickEmoji('${e}')">${e}</button>`
+  ).join('');
+}
+
+function renderColorRow(){
+  document.getElementById('colorRow').innerHTML=COLORS.map(c=>
+    `<div class="color-sw${c===selectedColor?' sel':''}" style="background:${c}" onclick="pickColor('${c}')"></div>`
+  ).join('');
+}
+
+function pickEmoji(e){selectedEmoji=e;renderEmojiGrid();}
+function pickColor(c){selectedColor=c;renderColorRow();}
+
+function saveProfile(){
+  const name=document.getElementById('pName').value.trim();
+  if(!name){showToast('이름을 입력해주세요');return;}
+  if(editingProfileId){
+    const p=profiles.find(x=>x.id===editingProfileId);
+    if(p){p.name=name;p.emoji=selectedEmoji;p.color=selectedColor;}
+  }else{
+    // 새 프로필: 로그인 유저의 uid를 ownerUid로 설정
+    profiles.push({
+      id:genId(),name,emoji:selectedEmoji,color:selectedColor,
+      ownerUid:currentUser?currentUser.uid:null,
+      role:currentUser?'me':'friend',
+      createdAt:Date.now()
+    });
+  }
+  saveProfiles();closeAddModal();renderProfiles();
+  showToast(editingProfileId?'프로필이 수정됐어요':'프로필이 추가됐어요 👋');
+}
+
+// ===== DELETE =====
+function openDelConfirm(id){
+  const p=profiles.find(x=>x.id===id);if(!p)return;
+  deletingProfileId=id;
+  document.getElementById('delMsg').textContent=`"${p.name}"의 모든 포트폴리오 데이터를 삭제할까요? 되돌릴 수 없습니다.`;
+  document.getElementById('delOverlay').classList.add('open');
+}
+function closeDelConfirm(){document.getElementById('delOverlay').classList.remove('open');deletingProfileId=null;}
+function confirmDelete(){
+  if(!deletingProfileId)return;
+  try{localStorage.removeItem('pf40_assets_'+deletingProfileId);}catch(e){}
+  // Firebase에서도 삭제
+  if(window._db){
+    _db.collection('portfolios').doc(deletingProfileId).delete().catch(()=>{});
+  }
+  profiles=profiles.filter(p=>p.id!==deletingProfileId);
+  saveProfiles();closeDelConfirm();renderProfiles();
+  showToast('프로필이 삭제됐어요');
+}
+
+// ===== EXPORT / IMPORT =====
+function exportAll(){
+  const data={profiles,assets:{},exportDate:new Date().toISOString(),version:'40v1'};
+  profiles.forEach(p=>{try{const r=localStorage.getItem('pf40_assets_'+p.id);if(r)data.assets[p.id]=JSON.parse(r);}catch(e){}});
+  const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url;a.download='40portfolio_backup_'+new Date().toLocaleDateString('ko-KR').replace(/\./g,'').replace(/ /g,'')+'.json';
+  a.click();URL.revokeObjectURL(url);
+  showToast('백업 파일이 저장됐어요!');
+}
+
+function importData(){document.getElementById('importFile').click();}
+function handleImport(e){
+  const file=e.target.files[0];if(!file)return;
+  const reader=new FileReader();
+  reader.onload=function(ev){
+    try{
+      const d=JSON.parse(ev.target.result);
+      if(!d.profiles||!d.assets)throw new Error('invalid');
+      d.profiles.forEach(p=>{if(!profiles.find(x=>x.id===p.id))profiles.push(p);});
+      Object.entries(d.assets).forEach(([pid,assetData])=>{localStorage.setItem('pf40_assets_'+pid,JSON.stringify(assetData));});
+      saveProfiles();renderProfiles();showToast('데이터를 가져왔어요!');
+    }catch(err){showToast('올바른 백업 파일이 아닙니다');}
+  };
+  reader.readAsText(file);e.target.value='';
+}
+
+// ===== TOAST =====
+function showToast(msg,isErr){
+  const t=document.getElementById('toast');
+  t.textContent=msg;
+  t.style.background=isErr?'rgba(216,90,48,.15)':'';
+  t.classList.add('show');
+  clearTimeout(t._to);t._to=setTimeout(()=>t.classList.remove('show'),2600);
+}
+
+// ===== KEYBOARD =====
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape'){closeAddModal();closeDelConfirm();}
+});
+document.getElementById('addModal').addEventListener('click',e=>{if(e.target===e.currentTarget)closeAddModal();});
+document.getElementById('delOverlay').addEventListener('click',e=>{if(e.target===e.currentTarget)closeDelConfirm();});
+
+// ===== INIT =====
+function init(){
+  loadProfiles();
+  // 인증 상태 변화 감지
+  document.addEventListener('authChanged',(e)=>{
+    updateAuthUI(e.detail);
+  });
+  // 이미 로그인 되어있으면 즉시 반영
+  if(window._currentUser !== undefined){
+    updateAuthUI(window._currentUser);
+  }
+}
+
+// compat SDK는 동기 초기화라 바로 실행 가능
+init();
+</script>
+</body>
+</html>
